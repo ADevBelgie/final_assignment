@@ -1,9 +1,9 @@
 ﻿using final_assignment.Common.Models;
 using System.Collections.Generic;
 
-namespace final_assignment.DAL.Data.Repositories.ProductSale
+namespace final_assignment.DAL.Data.Repositories.Product
 {
-    public interface IProductSaleRepository
+    public interface IProductRepository
     {
         IEnumerable<ProductModel> GetAllProduct();
     }

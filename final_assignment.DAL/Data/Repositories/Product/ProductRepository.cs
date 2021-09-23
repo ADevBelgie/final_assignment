@@ -6,12 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace final_assignment.DAL.Data.Repositories.ProductSale
+namespace final_assignment.DAL.Data.Repositories.Product
 {
-    public class ProductSaleRepository : IProductSaleRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly AppDbContext _context;
-        public ProductSaleRepository(AppDbContext context)
+        public ProductRepository(AppDbContext context)
         {
             _context = context;
         }
@@ -19,8 +19,9 @@ namespace final_assignment.DAL.Data.Repositories.ProductSale
         {
             // Adding foods and non foods into 1 IEnumerable
             // Also makes sure either are not null
-            IEnumerable<ProductModel> AllProducts = ((IEnumerable<ProductModel>)_context.FoodProducts ?? Enumerable.Empty<FoodModel>())
-                .Concat((IEnumerable<ProductModel>)_context.NonFoodProducts ?? Enumerable.Empty<NonFoodModel>()); 
+            //IEnumerable<ProductModel> AllProducts = ((IEnumerable<ProductModel>)_context.FoodProducts ?? Enumerable.Empty<FoodModel>())
+            //    .Concat((IEnumerable<ProductModel>)_context.NonFoodProducts ?? Enumerable.Empty<NonFoodModel>()); 
+            IEnumerable<ProductModel> AllProducts = _context.Products;
 
             return AllProducts;
         }

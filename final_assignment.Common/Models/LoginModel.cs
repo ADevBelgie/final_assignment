@@ -6,8 +6,8 @@ namespace final_assignment.Common.Models
     {
         [Key]
         public int LoginId { get; set; }
-        //public int ShoppingBagId { get; set; }
-        //public ShoppingBagViewModel ShoppingBagViewModel { get; set; }
+        public int ShoppingBagId { get; set; }
+        public ShoppingBagModel ShoppingBag { get; set; }
         [Required]
         [Key]
         [Display(Name = "Username")]

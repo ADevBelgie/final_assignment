@@ -1,7 +1,7 @@
 ﻿using final_assignment.Common.Models;
 using final_assignment.DAL.Data.Repositories.Food;
 using final_assignment.DAL.Data.Repositories.NonFood;
-using final_assignment.DAL.Data.Repositories.ProductSale;
+using final_assignment.DAL.Data.Repositories.Product;
 
 using System;
 using System.Collections.Generic;
@@ -15,16 +15,16 @@ namespace final_assignment.BLL.Services.Product
     {
         private readonly IFoodRepository _foodRepository;
         private readonly INonFoodRepository _nonFoodRepository;
-        private readonly IProductSaleRepository _productSaleRepository;
+        private readonly IProductRepository _productRepository;
 
         public ProductService(
             IFoodRepository FoodRepository,
             INonFoodRepository NonFoodRepository,
-            IProductSaleRepository ProductSaleRepository)
+            IProductRepository ProductSaleRepository)
         {
             _foodRepository = FoodRepository;
             _nonFoodRepository = NonFoodRepository;
-            _productSaleRepository = ProductSaleRepository;
+            _productRepository = ProductSaleRepository;
         }
         public List<ProductModel> GetPageProducts(int pageNumber = 1, int amountPerPage = 9, string catergory = "none", bool obsolete = false)
         {
@@ -46,7 +46,7 @@ namespace final_assignment.BLL.Services.Product
         }
         public List<ProductModel> GetListAllProducts()
         {
-            return _productSaleRepository.GetAllProduct().ToList();
+            return _productRepository.GetAllProduct().ToList();
         }
         public List<ProductModel> GetListProductsCategory(string catergory)
         {
@@ -63,7 +63,7 @@ namespace final_assignment.BLL.Services.Product
                         .Cast<ProductModel>()
                         .ToList();
                 case "none":
-                    return _productSaleRepository.GetAllProduct()
+                    return _productRepository.GetAllProduct()
                         .ToList();
                 default:
                     // Logging

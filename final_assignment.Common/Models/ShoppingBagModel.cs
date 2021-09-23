@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace final_assignment.Common.Models
 {
@@ -12,8 +11,8 @@ namespace final_assignment.Common.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ShoppingBagId { get; set; }//PK
         public int LoginId { get; set; }//FK
-        public LoginViewModel LoginViewModel { get; set; }
+        public LoginModel Login { get; set; }
         public DateTime TimeCreated { get; set; }
-        public List<ShoppingItemViewModel> Items { get; set; } = new List<ShoppingItemViewModel>();
+        public List<ShoppingItemModel> Items { get; set; } = new List<ShoppingItemModel>();
     }
 }
