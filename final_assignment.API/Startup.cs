@@ -1,6 +1,7 @@
 using final_assignment.BLL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -10,6 +11,7 @@ namespace final_assignment.API
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -20,7 +22,18 @@ namespace final_assignment.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:4200") // Important: The specified URL must not contain a trailing slash (/).
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod();
+                                        //.AllowAnyOrigin(); // Works but unsafe
+                                  });
+            });
+
             services.RegisterBLL(Configuration);
 
             
@@ -44,6 +57,8 @@ namespace final_assignment.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthorization();
 

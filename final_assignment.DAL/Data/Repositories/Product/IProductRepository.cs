@@ -6,5 +6,6 @@ namespace final_assignment.DAL.Data.Repositories.Product
     public interface IProductRepository
     {
         IEnumerable<ProductModel> GetAllProduct();
+        public ProductModel GetProductById(int id);
     }
 }

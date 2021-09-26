@@ -25,5 +25,10 @@ namespace final_assignment.DAL.Data.Repositories.Product
 
             return AllProducts;
         }
+
+        public ProductModel GetProductById(int id)
+        {
+            return _context.Products.FirstOrDefault(x => x.ProductId == id);
+        }
     }
 }

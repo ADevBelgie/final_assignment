@@ -30,19 +30,40 @@ namespace final_assignment.BLL.Services.Product
         {
             // Get all products of the selected category
             var productList = GetListProductsCategory(catergory);
-            // Filter all obsolete products if not turned off
-            if (!obsolete)
+            if (productList != null)
             {
-                productList.RemoveAll(x => x.Obsolete == true);
-            }
-            // Get products for 1 page
-            var onePageProducts = productList
-                .OrderBy(i => i.ProductId) // Could implement order by price
-                .Skip((pageNumber - 1) * amountPerPage)
-                .Take(amountPerPage)
-                .ToList();
+                // Filter all obsolete products if not turned off
+                if (!obsolete)
+                {
+                    productList.RemoveAll(x => x.Obsolete == true);
+                }
+                // Get products for 1 page
+                var onePageProducts = productList
+                    .OrderBy(i => i.ProductId) // Could implement order by price
+                    .Skip((pageNumber - 1) * amountPerPage)
+                    .Take(amountPerPage)
+                    .ToList();
 
-            return onePageProducts;
+                return onePageProducts;
+            }
+            return null;
+        }
+        public int GetTotalPageProduct(int amountPerPage, string catergory = "none", bool obsolete = false)
+        {
+            // Get all products of the selected category
+            var productList = GetListProductsCategory(catergory);
+            if (productList != null)
+            {
+                // Filter all obsolete products if not turned off
+                if (!obsolete)
+                {
+                    productList.RemoveAll(x => x.Obsolete == true);
+                }
+
+                // Calculate amount of pages
+                return (productList.Count() + (amountPerPage - 1))/amountPerPage;
+            }
+            return 0;
         }
         public List<ProductModel> GetListAllProducts()
         {
@@ -57,7 +78,7 @@ namespace final_assignment.BLL.Services.Product
                         .ToList()
                         .Cast<ProductModel>()
                         .ToList();
-                case "nonFood":
+                case "nonfood": 
                     return _nonFoodRepository.GetAllNonFood()
                         .ToList()
                         .Cast<ProductModel>()
@@ -80,5 +101,10 @@ namespace final_assignment.BLL.Services.Product
         {
             return _nonFoodRepository.GetNonFoodModelId(id);
         }
+        public ProductModel GetProductById(int id)
+        {
+            return _productRepository.GetProductById(id);
+        }
+
     }
 }

@@ -33,11 +33,6 @@ namespace final_assignment.DAL.Data.DB
                 .HasValue<FoodModel>("QuantityInPackage")
                 .HasValue<NonFoodModel>("Size")
                 .HasValue<NonFoodModel>("Color");
-            //  No type was specified for the decimal property 'Price' on entity type 'ProductModel'.
-            //  This will cause values to be silently truncated if they do not fit in the default precision and scale.
-            //  Explicitly specify the SQL server column type that can accommodate all the 
-            //  values in 'OnModelCreating' using 'HasColumnType()', specify precision and scale using 'HasPrecision()' or 
-            //  configure a value converter using 'HasConversion()'.
 
             // Logins
             modelBuilder.Entity<LoginModel>()

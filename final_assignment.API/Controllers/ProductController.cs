@@ -21,48 +21,39 @@ namespace final_assignment.API.Controllers
             _logger = logger;
             _productService = productService;
         }
+        // GET api/Product?search=pizza
         [HttpGet]
-        public List<ProductModel> Get()
+        public List<ProductModel> Get(string search = "")
         {
-            return _productService.GetListAllProducts();
-        }
-        // GET api/Product/food
-        [HttpGet("food")]
-        public List<FoodModel> GetFoodProduct()
-        {
-            return _productService.GetListProductsCategory("food")
-                .ToList()
-                .Cast<FoodModel>()
-                .ToList(); 
-        }
-        // GET api/Product/food/id
-        [HttpGet("food/{id}")]
-        public FoodModel GetFoodProductById(string id)
-        {
-            if (int.TryParse(id, out int realId))
+            if (search == "")
             {
-                return _productService.GetFoodProductById(realId);
+                return _productService.GetListAllProducts();
             }
-            return null;
+
+
+            return _productService.GetListAllProducts() 
+               .Where(x => x.Name.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0 // Not Case sensitive
+                        || x.ProductType.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0
+                        || x.Description.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0) // Not Case sensitive
+               .ToList();
         }
-        // GET api/Product/nonfood
-        [HttpGet("nonfood")]
-        public List<NonFoodModel> GetNonFoodProduct()
+        // GET api/Product/id
+        [HttpGet("{id}")]
+        public ProductModel GetProduct(int id)
         {
-            return _productService.GetListProductsCategory("nonFood")
-                .ToList()
-                .Cast<NonFoodModel>()
-                .ToList();
+            return _productService.GetProductById(id);
         }
-        // GET api/Product/food/id
-        [HttpGet("nonFood/{id}")]
-        public NonFoodModel GetNonFoodProductById(string id)
+        // GET api/Product/pageProduct/{amountPerPage}/{pageNumber}
+        [HttpGet("pageProduct/{amountPerPage}/{pageNumber}")]
+        public List<ProductModel> GetPageProduct(int amountPerPage, int pageNumber, string category = "none", bool obsolete = false)
         {
-            if (int.TryParse(id, out int realId))
-            {
-                return _productService.GetNonFoodProductById(realId);
-            }
-            return null;
+            return _productService.GetPageProducts(pageNumber, amountPerPage, category, obsolete);
+        }
+        // GET api/Product/pageProduct/{amountPerPage}/{pageNumber}
+        [HttpGet("TotalpageProduct/{amountPerPage}")]
+        public int GetTotalPageProduct(int amountPerPage, string category = "none", bool obsolete = false)
+        {
+            return _productService.GetTotalPageProduct(amountPerPage, category, obsolete);
         }
     }
 }
