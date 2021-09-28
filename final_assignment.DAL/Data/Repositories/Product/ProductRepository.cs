@@ -17,10 +17,6 @@ namespace final_assignment.DAL.Data.Repositories.Product
         }
         public IEnumerable<ProductModel> GetAllProduct()
         {
-            // Adding foods and non foods into 1 IEnumerable
-            // Also makes sure either are not null
-            //IEnumerable<ProductModel> AllProducts = ((IEnumerable<ProductModel>)_context.FoodProducts ?? Enumerable.Empty<FoodModel>())
-            //    .Concat((IEnumerable<ProductModel>)_context.NonFoodProducts ?? Enumerable.Empty<NonFoodModel>()); 
             IEnumerable<ProductModel> AllProducts = _context.Products;
 
             return AllProducts;

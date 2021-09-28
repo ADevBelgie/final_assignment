@@ -10,7 +10,7 @@ namespace final_assignment.Common.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ShoppingBagId { get; set; }//PK
-        public int LoginId { get; set; }//FK
+        public string LoginId { get; set; }//FK
         public LoginModel Login { get; set; }
         public DateTime TimeCreated { get; set; }
         public List<ShoppingItemModel> Items { get; set; } = new List<ShoppingItemModel>();

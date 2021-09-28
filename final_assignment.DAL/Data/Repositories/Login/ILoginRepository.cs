@@ -10,7 +10,7 @@ namespace final_assignment.DAL.Data.Repositories.Login
     public interface ILoginRepository
     {
         IEnumerable<LoginModel> GetAllLoginViews();
-        LoginModel GetLoginId(int id);
+        LoginModel GetLoginId(string id);
         LoginModel AddLogin(LoginModel login);
         LoginModel UpdateLoginById(LoginModel login);
     }

@@ -1,7 +1,9 @@
 using final_assignment.BLL;
+using final_assignment.Common.Models;
+using final_assignment.DAL.Data.DB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,10 +32,21 @@ namespace final_assignment.API
                                       builder.WithOrigins("http://localhost:4200") // Important: The specified URL must not contain a trailing slash (/).
                                         .AllowAnyHeader()
                                         .AllowAnyMethod();
-                                        //.AllowAnyOrigin(); // Works but unsafe
                                   });
             });
-
+            services.AddIdentity<LoginModel, RoleModel>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 3;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.User.RequireUniqueEmail = true;
+            })
+                .AddRoles<RoleModel>()  
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
+            
             services.RegisterBLL(Configuration);
 
             
@@ -45,7 +58,11 @@ namespace final_assignment.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(
+            IApplicationBuilder app, 
+            IWebHostEnvironment env,
+            UserManager<LoginModel> userManager,
+            RoleManager<RoleModel> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -53,7 +70,7 @@ namespace final_assignment.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "final_assignment.API v1"));
             }
-
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -61,6 +78,10 @@ namespace final_assignment.API
             app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthorization();
+            app.UseAuthentication();
+
+            AppDbInitializer.SeedRoles(roleManager);
+            AppDbInitializer.SeedUsers(userManager);
 
             app.UseEndpoints(endpoints =>
             {

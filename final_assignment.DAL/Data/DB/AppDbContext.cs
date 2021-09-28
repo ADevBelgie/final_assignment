@@ -1,72 +1,88 @@
 ﻿using final_assignment.Common.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace final_assignment.DAL.Data.DB
 {
-    public class AppDbContext:DbContext
-    {
+    public class AppDbContext: IdentityDbContext<LoginModel, RoleModel, string>  
+    {   
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
+           
         }
         public DbSet<ProductModel> Products { get; set; }
         public DbSet<FoodModel> FoodProducts { get; set; }
         public DbSet<NonFoodModel> NonFoodProducts { get; set; }
         public DbSet<ShoppingBagModel> ShoppingBags { get; set; }
         public DbSet<ShoppingItemModel> ShoppingItems { get; set; }
-
-        public DbSet<LoginModel> Logins { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder); // For enabling IdentityUser
+
             // Products
-            modelBuilder.Entity<ProductModel>()
-                .HasKey(b => b.ProductId);
-            modelBuilder.Entity<ProductModel>()
-                .HasDiscriminator(b => b.ProductType);
-            modelBuilder.Entity<ProductModel>()
-                .Property(e => e.ProductType)
-                .HasMaxLength(200)
-                .HasColumnName("product_type");
-            modelBuilder.Entity<ProductModel>()
-                .HasDiscriminator<string>("Category")
+            modelBuilder.Entity<ProductModel>(product =>
+            { 
+                product.HasKey(b => b.ProductId);
+
+                product.HasDiscriminator(b => b.ProductType);
+
+                product.Property(e => e.ProductType)
+                    .HasMaxLength(200)
+                    .HasColumnName("product_type");
+
+                product.HasDiscriminator<string>("Category")
                 .HasValue<ProductModel>("blog_base")
                 .HasValue<FoodModel>("QuantityInPackage")
                 .HasValue<NonFoodModel>("Size")
                 .HasValue<NonFoodModel>("Color");
+            });
 
+            // https://docs.microsoft.com/en-us/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-5.0
             // Logins
-            modelBuilder.Entity<LoginModel>()
-                .HasKey(l => new {
-                    l.LoginId
-                });
-            modelBuilder.Entity<LoginModel>()
-               .HasAlternateKey(l => new { l.UserName });
-            modelBuilder.Entity<LoginModel>() // one on one relation shoppingbag
-              .HasOne(spb => spb.ShoppingBag)
-              .WithOne(l => l.Login)
-              .HasForeignKey<LoginModel>(l => l.ShoppingBagId);
+            modelBuilder.Entity<LoginModel>(login =>
+            {
+                //login.HasKey(l => new { l.Id });
+
+                //login.HasAlternateKey(l => new { l.UserName });
+
+                //login.HasAlternateKey(l => new { l.Email });
+
+                login.HasOne(spb => spb.ShoppingBag)// one on one relation shoppingbag
+                  .WithOne(l => l.Login)
+                  .HasForeignKey<LoginModel>(l => l.ShoppingBagId);
+            });
+
+            // Each User can have many entries in the UserRole join table
 
             //Shopping Bag
-            modelBuilder.Entity<ShoppingBagModel>()
-               .HasKey(spb => new { spb.ShoppingBagId });
-            modelBuilder.Entity<ShoppingBagModel>() // one on one relation Login
-               .HasOne(l => l.Login)
-               .WithOne(spb => spb.ShoppingBag)
-               .HasForeignKey<ShoppingBagModel>(spb => spb.LoginId);
-            modelBuilder.Entity<ShoppingBagModel>() // one on many relation shoppingitem
-               .HasMany(spb => spb.Items)
-               .WithOne(spi => spi.ShoppingBag)
-               .HasForeignKey(spi => spi.ShoppingBagId);
+            modelBuilder.Entity<ShoppingBagModel>(shoppingBag =>
+            { 
+                shoppingBag.HasKey(spb => new { spb.ShoppingBagId });
+
+                shoppingBag.HasOne(l => l.Login) // one on one relation Login
+                   .WithOne(spb => spb.ShoppingBag)
+                   .HasForeignKey<ShoppingBagModel>(spb => spb.LoginId);
+
+                shoppingBag.HasMany(spb => spb.Items)  // one on many relation shoppingitem
+
+                   .WithOne(spi => spi.ShoppingBag)
+                   .HasForeignKey(spi => spi.ShoppingBagId);
+            });
 
             //Shopping Item
-            modelBuilder.Entity<ShoppingItemModel>()
-               .HasKey(spi => new { spi.ID });
-            modelBuilder.Entity<ShoppingItemModel>()
-               .HasOne(spi => spi.ShoppingBag)
-               .WithMany(spb => spb.Items)
-               .HasForeignKey(spi => spi.ShoppingBagId);
-            modelBuilder.Entity<ShoppingItemModel>()
-               .HasOne(spi => spi.Product);
+            modelBuilder.Entity<ShoppingItemModel>(shoppingItem =>
+            {
+                shoppingItem.HasKey(spi => new { spi.ID });
+
+                shoppingItem.HasOne(spi => spi.ShoppingBag)
+                   .WithMany(spb => spb.Items)
+                   .HasForeignKey(spi => spi.ShoppingBagId);
+
+                shoppingItem.HasOne(spi => spi.Product);
+            });
 
             // Seeding
             // Seeding FoodProducts
@@ -93,16 +109,15 @@ namespace final_assignment.DAL.Data.DB
             }
             modelBuilder.Entity<NonFoodModel>().HasData(defaultStandardsNonFood);
 
-            // Seeding Logins
-            IList<LoginModel> defaultUsers = new List<LoginModel>();
-            defaultUsers.Add(new LoginModel() { LoginId = 1, ShoppingBagId = 1, UserName = "admin1", Role = "admin", Password = "admin" });
-            defaultUsers.Add(new LoginModel() { LoginId = 2, ShoppingBagId = 2, UserName = "arthur", Role = "normal", Password = "arthur" });
-            modelBuilder.Entity<LoginModel>().HasData(defaultUsers);
 
-            // Seeding Shoppingbag for above users
+            // Seeding Roles is done in AppDbInit
+
+            // Seeding Logins is done in AppDbInit
+
+            // Seeding Shoppingbag
             IList<ShoppingBagModel> defaultBags = new List<ShoppingBagModel>();
-            defaultBags.Add(new ShoppingBagModel() { ShoppingBagId = 1, LoginId = 1, TimeCreated = System.DateTime.Now });
-            defaultBags.Add(new ShoppingBagModel() { ShoppingBagId = 2, LoginId = 2, TimeCreated = System.DateTime.Now });
+            defaultBags.Add(new ShoppingBagModel() { ShoppingBagId = 1, TimeCreated = System.DateTime.Now });
+            defaultBags.Add(new ShoppingBagModel() { ShoppingBagId = 2, TimeCreated = System.DateTime.Now });
             modelBuilder.Entity<ShoppingBagModel>().HasData(defaultBags);
         }  
     }

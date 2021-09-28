@@ -1,25 +1,46 @@
 ﻿using final_assignment.Common.Models;
 using final_assignment.DAL.Data.DB;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace final_assignment.DAL.Data.Repositories.Login
 {
     public class LoginRepository : ILoginRepository
     {
         private readonly AppDbContext _context;
-        public LoginRepository(AppDbContext context)
+        private readonly UserManager<LoginModel> _userManager;
+        private readonly RoleManager<RoleModel> _roleManager;
+        public LoginRepository(
+            AppDbContext context, 
+            UserManager<LoginModel> userManager,
+            RoleManager<RoleModel> roleManager)
         {
             _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
         public LoginModel AddLogin(LoginModel login)
         {
             try
             {
-                _context.Logins.Add(login);
+                if (_userManager.FindByNameAsync(login.UserName).Result == null)
+                {
+                    LoginModel user = new LoginModel()
+                    {
+                        UserName = login.UserName,
+                        Email = login.Email
+                    };
+
+                    IdentityResult result = _userManager.CreateAsync
+                    (user, login.PasswordHash).Result; // password
+
+                    if (result.Succeeded)
+                    {
+                        _userManager.AddToRoleAsync(user, "NormalUser").Wait();
+                    }
+                }
             }
             catch (Exception)
             {
@@ -27,25 +48,24 @@ namespace final_assignment.DAL.Data.Repositories.Login
                 throw;
             }
             Save();
-            return GetLoginId(login.LoginId);
+            return GetLoginId(login.Id);
         }
 
         public IEnumerable<LoginModel> GetAllLoginViews()
         {
-            return _context.Logins;
+            return (IEnumerable<LoginModel>)_context.UserLogins;
         }
 
-        public LoginModel GetLoginId(int id)
+        public LoginModel GetLoginId(string id)
         {
-            return _context.Logins
-                .FirstOrDefault(x => x.LoginId == id);
+            return _context.Users.FirstOrDefault(x => x.Id == id);
         }
 
         public LoginModel UpdateLoginById(LoginModel login)
         {
             try
             {
-                _context.Logins.Update(login);
+                throw new NotImplementedException();
             }
             catch (Exception)
             {
@@ -53,8 +73,9 @@ namespace final_assignment.DAL.Data.Repositories.Login
                 throw;
             }
             Save();
-            return GetLoginId(login.LoginId);
+            return GetLoginId(login.Id);
         }
+
         private void Save()
         {
             _context.SaveChanges();
