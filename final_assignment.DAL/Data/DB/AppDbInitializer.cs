@@ -10,13 +10,16 @@ namespace final_assignment.DAL.Data.DB
 {
     public class AppDbInitializer 
     {
+        private readonly AppDbContext _context;
+        public AppDbInitializer(AppDbContext context)
+        {
+            _context = context;
+        }
         public static void Seed(AppDbContext context)
         {
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
             context.SaveChanges();
-            //SeedRoles(roleManager);
-            //SeedUsers(userManager);
         }
         public static void SeedRoles(RoleManager<RoleModel> roleManager)
         {
@@ -28,7 +31,6 @@ namespace final_assignment.DAL.Data.DB
                 IdentityResult roleResult = roleManager.
                 CreateAsync(role).Result;
             }
-
 
             if (!roleManager.RoleExistsAsync("Administrator").Result)
             {

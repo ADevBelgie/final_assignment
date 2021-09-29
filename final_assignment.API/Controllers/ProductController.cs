@@ -11,7 +11,7 @@ namespace final_assignment.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController
+    public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
         private readonly IProductService _productService;

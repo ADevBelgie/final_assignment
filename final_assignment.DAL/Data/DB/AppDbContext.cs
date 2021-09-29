@@ -67,7 +67,6 @@ namespace final_assignment.DAL.Data.DB
                    .HasForeignKey<ShoppingBagModel>(spb => spb.LoginId);
 
                 shoppingBag.HasMany(spb => spb.Items)  // one on many relation shoppingitem
-
                    .WithOne(spi => spi.ShoppingBag)
                    .HasForeignKey(spi => spi.ShoppingBagId);
             });
@@ -115,10 +114,10 @@ namespace final_assignment.DAL.Data.DB
             // Seeding Logins is done in AppDbInit
 
             // Seeding Shoppingbag
-            IList<ShoppingBagModel> defaultBags = new List<ShoppingBagModel>();
-            defaultBags.Add(new ShoppingBagModel() { ShoppingBagId = 1, TimeCreated = System.DateTime.Now });
-            defaultBags.Add(new ShoppingBagModel() { ShoppingBagId = 2, TimeCreated = System.DateTime.Now });
-            modelBuilder.Entity<ShoppingBagModel>().HasData(defaultBags);
+            //IList<ShoppingBagModel> defaultBags = new List<ShoppingBagModel>();
+            //defaultBags.Add(new ShoppingBagModel() { ShoppingBagId = 1, TimeCreated = System.DateTime.Now });
+            //defaultBags.Add(new ShoppingBagModel() { ShoppingBagId = 2, TimeCreated = System.DateTime.Now });
+            //modelBuilder.Entity<ShoppingBagModel>().HasData(defaultBags);
         }  
     }
 }

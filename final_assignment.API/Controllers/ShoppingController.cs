@@ -10,7 +10,7 @@ namespace final_assignment.API.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class ShoppingController
+    public class ShoppingController : ControllerBase
     {
         private readonly ILogger<ShoppingController> _logger;
         private readonly IShoppingService _shoppingService;
@@ -22,8 +22,11 @@ namespace final_assignment.API.Controllers
         }
         // GET api/Shopping/id
         [HttpGet("{id}")]
+        [Authorize]
         public ShoppingBagModel Get(string id)
         {
+            // Validate LoginId (there should be a token here)
+
             var shoppingBag = _shoppingService.GetShoppingBagByLoginId(id);
             if (shoppingBag == null)
             {
