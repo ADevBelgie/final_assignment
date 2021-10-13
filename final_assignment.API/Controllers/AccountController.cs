@@ -15,6 +15,11 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
+//testing
+using System.IdentityModel.Tokens;
+using Microsoft.IdentityModel;
+using System.IdentityModel;
+
 namespace final_assignment.API.Controllers
 {
     [ApiController]
@@ -62,7 +67,7 @@ namespace final_assignment.API.Controllers
                 }
 
                 var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-
+                
                 var token = new JwtSecurityToken(
                     issuer: _configuration["JWT:ValidIssuer"],
                     audience: _configuration["JWT:ValidAudience"],

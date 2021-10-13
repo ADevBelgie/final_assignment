@@ -32,7 +32,9 @@ namespace final_assignment.API
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   builder =>
                                   {
-                                      builder.WithOrigins("http://localhost:4200") // Important: The specified URL must not contain a trailing slash (/).
+                                      builder.AllowAnyOrigin()//.WithOrigins("http://localhost:8080")
+                                        //.WithOrigins("http://localhost:4200") // Important: The specified URL must not contain a trailing slash (/).
+                                        // Should be http://localhost:4200 when not using postman
                                         .AllowAnyHeader()
                                         .AllowAnyMethod();
                                   });
@@ -66,6 +68,7 @@ namespace final_assignment.API
                     {
                         ValidateIssuer = true,
                         ValidateAudience = true,
+                        ValidateLifetime = false, // temp
                         ValidAudience = Configuration["JWT:ValidAudience"],
                         ValidIssuer = Configuration["JWT:ValidIssuer"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
@@ -103,8 +106,8 @@ namespace final_assignment.API
 
             app.UseCors(MyAllowSpecificOrigins);
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             AppDbInitializer.SeedRoles(roleManager);
             AppDbInitializer.SeedUsers(userManager);

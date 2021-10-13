@@ -25,7 +25,7 @@ namespace final_assignment.API.Controllers
         [HttpGet]
         public List<ProductModel> Get(string search = "")
         {
-            if (search == "")
+            if (search == "" || search == null) // Can be null in some cases
             {
                 return _productService.GetListAllProducts();
             }
