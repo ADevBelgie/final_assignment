@@ -46,7 +46,6 @@ namespace final_assignment.DAL.Data.DB
             if (userManager.FindByNameAsync("admin").Result == null)
             {
                 LoginModel user = new LoginModel() { 
-                    ShoppingBagId = 1, 
                     UserName = "admin", 
                     Email = "admin.admin@gmail.com"};
 
@@ -64,7 +63,6 @@ namespace final_assignment.DAL.Data.DB
             {
                 LoginModel user = new LoginModel()
                 {
-                    ShoppingBagId = 2,
                     UserName = "arthur",
                     Email = "arthur.arthur@gmail.com"
                 };

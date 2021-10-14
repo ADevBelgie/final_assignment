@@ -53,7 +53,7 @@ namespace final_assignment.DAL.Data.Repositories.Login
 
         public IEnumerable<LoginModel> GetAllLoginViews()
         {
-            return (IEnumerable<LoginModel>)_context.UserLogins;
+            return (IEnumerable<LoginModel>)_context.Users;
         }
 
         public LoginModel GetLoginId(string id)
@@ -65,7 +65,13 @@ namespace final_assignment.DAL.Data.Repositories.Login
         {
             try
             {
-                throw new NotImplementedException();
+                var user = _userManager.FindByIdAsync(login.Id).Result;
+                if (user != null)
+                {
+                    user.ShoppingBagId = login.ShoppingBagId;
+                    // Potentially add more things to be updated.
+                    _userManager.UpdateAsync(user);
+                }
             }
             catch (Exception)
             {
@@ -78,7 +84,8 @@ namespace final_assignment.DAL.Data.Repositories.Login
 
         private void Save()
         {
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
+            //_context.SaveChanges();
         }
     }
 }

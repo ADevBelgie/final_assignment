@@ -44,12 +44,6 @@ namespace final_assignment.DAL.Data.DB
             // Logins
             modelBuilder.Entity<LoginModel>(login =>
             {
-                //login.HasKey(l => new { l.Id });
-
-                //login.HasAlternateKey(l => new { l.UserName });
-
-                //login.HasAlternateKey(l => new { l.Email });
-
                 login.HasOne(spb => spb.ShoppingBag)// one on one relation shoppingbag
                   .WithOne(l => l.Login)
                   .HasForeignKey<LoginModel>(l => l.ShoppingBagId);
@@ -113,11 +107,8 @@ namespace final_assignment.DAL.Data.DB
 
             // Seeding Logins is done in AppDbInit
 
-            // Seeding Shoppingbag
-            //IList<ShoppingBagModel> defaultBags = new List<ShoppingBagModel>();
-            //defaultBags.Add(new ShoppingBagModel() { ShoppingBagId = 1, TimeCreated = System.DateTime.Now });
-            //defaultBags.Add(new ShoppingBagModel() { ShoppingBagId = 2, TimeCreated = System.DateTime.Now });
-            //modelBuilder.Entity<ShoppingBagModel>().HasData(defaultBags);
+            // Seeding Shoppingbag not necessary since they are created upon request
+
         }  
     }
 }

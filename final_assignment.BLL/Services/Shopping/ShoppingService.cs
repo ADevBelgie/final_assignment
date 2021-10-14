@@ -13,9 +13,10 @@ namespace final_assignment.BLL.Services.Shopping
     {
         private readonly IShoppingBagRepository _shoppingBagRepository;
         private readonly IShoppingItemRepository _shoppingItemRepository;
-        public ShoppingService()
+        public ShoppingService(IShoppingBagRepository shoppingBagRepository, IShoppingItemRepository shoppingItemRepository)
         {
-
+            _shoppingBagRepository = shoppingBagRepository;
+            _shoppingItemRepository = shoppingItemRepository;
         }
 
         public ShoppingBagModel AddShoppingBag(ShoppingBagModel shoppingBagModel)

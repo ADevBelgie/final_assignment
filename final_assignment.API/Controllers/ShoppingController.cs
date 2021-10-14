@@ -1,4 +1,5 @@
-﻿using final_assignment.BLL.Services.Shopping;
+﻿using final_assignment.BLL.Services.Account;
+using final_assignment.BLL.Services.Shopping;
 using final_assignment.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,27 +15,33 @@ namespace final_assignment.API.Controllers
     {
         private readonly ILogger<ShoppingController> _logger;
         private readonly IShoppingService _shoppingService;
+        private readonly IAccountService _accountService;
 
-        public ShoppingController(ILogger<ShoppingController> logger, IShoppingService shoppingService)
+        public ShoppingController(ILogger<ShoppingController> logger, IShoppingService shoppingService, IAccountService accountService)
         {
             _logger = logger;
             _shoppingService = shoppingService;
+            _accountService = accountService;
         }
         // GET api/Shopping/id
-        [HttpGet("{id}")]
+        [HttpGet]
         [Authorize]
-        public ShoppingBagModel Get(string id)
+        public ShoppingBagModel Get()
         {
-            // Validate LoginId (there should be a token here)
-
-            var shoppingBag = _shoppingService.GetShoppingBagByLoginId(id);
+            var allUsers = _accountService.GetAllLoginViews();
+            var currentUser = _accountService.GetAllLoginViews().Find(x => x.UserName == User.Identity.Name);
+            var shoppingBag = _shoppingService.GetShoppingBagByLoginId(currentUser.Id);
             if (shoppingBag == null)
             {
-                shoppingBag = _shoppingService.AddShoppingBag( new ShoppingBagModel() {
-                    LoginId = id,
+                // Create shoppingbag for user and add shoppingbagid to user
+                shoppingBag = _shoppingService.AddShoppingBag( new ShoppingBagModel { 
+                    LoginId = currentUser.Id,
                     TimeCreated = DateTime.Now
                 });
+                currentUser.ShoppingBagId = shoppingBag.ShoppingBagId;
+                _accountService.UpdateLoginById(currentUser);
             }
+            
             return shoppingBag;
         }
     }
