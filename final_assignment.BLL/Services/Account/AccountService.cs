@@ -28,7 +28,7 @@ namespace final_assignment.BLL.Services.Account
 
         public LoginModel UpdateLoginById(LoginModel login)
         {
-            return _loginRepository.UpdateLoginById(login);
+            return _loginRepository.UpdateLoginByIdAsync(login).Result;
         }
     }
 }

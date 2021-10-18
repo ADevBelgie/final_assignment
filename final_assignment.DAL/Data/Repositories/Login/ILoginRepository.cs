@@ -12,6 +12,6 @@ namespace final_assignment.DAL.Data.Repositories.Login
         IEnumerable<LoginModel> GetAllLoginViews();
         LoginModel GetLoginId(string id);
         LoginModel AddLogin(LoginModel login);
-        LoginModel UpdateLoginById(LoginModel login);
+        Task<LoginModel> UpdateLoginByIdAsync(LoginModel login);
     }
 }

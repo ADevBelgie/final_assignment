@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace final_assignment.DAL.Data.Repositories.Login
 {
@@ -61,7 +62,7 @@ namespace final_assignment.DAL.Data.Repositories.Login
             return _context.Users.FirstOrDefault(x => x.Id == id);
         }
 
-        public LoginModel UpdateLoginById(LoginModel login)
+        public async Task<LoginModel> UpdateLoginByIdAsync(LoginModel login)
         {
             try
             {
@@ -70,7 +71,7 @@ namespace final_assignment.DAL.Data.Repositories.Login
                 {
                     user.ShoppingBagId = login.ShoppingBagId;
                     // Potentially add more things to be updated.
-                    _userManager.UpdateAsync(user);
+                    await _userManager.UpdateAsync(user); // Need to await for Save() to work
                 }
             }
             catch (Exception)
@@ -84,8 +85,7 @@ namespace final_assignment.DAL.Data.Repositories.Login
 
         private void Save()
         {
-            _context.SaveChangesAsync();
-            //_context.SaveChanges();
+            _context.SaveChanges();
         }
     }
 }

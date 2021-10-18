@@ -23,7 +23,7 @@ namespace final_assignment.API.Controllers
             _shoppingService = shoppingService;
             _accountService = accountService;
         }
-        // GET api/Shopping/id
+        // GET api/Shopping
         [HttpGet]
         [Authorize]
         public ShoppingBagModel Get()
