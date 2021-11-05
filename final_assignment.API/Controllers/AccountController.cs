@@ -50,39 +50,48 @@ namespace final_assignment.API.Controllers
         [Route("login")]
         public async Task<IActionResult> Login(LoginModel login)
         {
-            var user = await _userManager.FindByNameAsync(login.UserName);
-            if (user != null && await _userManager.CheckPasswordAsync(user, login.PasswordHash))
+            try
             {
-                var userRoles = await _userManager.GetRolesAsync(user);
+                var user = await _userManager.FindByNameAsync(login.UserName);
+                if (user != null && await _userManager.CheckPasswordAsync(user, login.PasswordHash))
+                {
+                    var userRoles = await _userManager.GetRolesAsync(user);
 
-                var authClaims = new List<Claim>
+                    var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
-                foreach (var userRole in userRoles)
-                {
-                    authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                    foreach (var userRole in userRoles)
+                    {
+                        authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                    }
+
+                    var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+                    var token = new JwtSecurityToken(
+                        issuer: _configuration["JWT:ValidIssuer"],
+                        audience: _configuration["JWT:ValidAudience"],
+                        expires: DateTime.Now.AddHours(3),
+                        claims: authClaims,
+                        signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                        );
+
+                    return Ok(new
+                    {
+                        token = new JwtSecurityTokenHandler().WriteToken(token),
+                        expiration = token.ValidTo
+                    });
                 }
-
-                var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-                
-                var token = new JwtSecurityToken(
-                    issuer: _configuration["JWT:ValidIssuer"],
-                    audience: _configuration["JWT:ValidAudience"],
-                    expires: DateTime.Now.AddHours(3),
-                    claims: authClaims,
-                    signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                    );
-
-                return Ok(new
-                {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
-                });
+                return StatusCode(StatusCodes.Status403Forbidden, new Response { Status = "Forbidden", Message = "User Login failed! Please check user details and try again." });
             }
-            return Unauthorized();
+            catch (Exception)
+            {
+                // Logging
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User login failed! Please check user details and try again." });
+            }
+            
         }
         // api/Account/register
         [HttpPost]

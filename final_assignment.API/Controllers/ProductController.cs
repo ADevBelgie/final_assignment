@@ -32,9 +32,7 @@ namespace final_assignment.API.Controllers
 
 
             return _productService.GetListAllProducts() 
-               .Where(x => x.Name.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0 // Not Case sensitive
-                        || x.ProductType.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0
-                        || x.Description.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0) // Not Case sensitive
+               .Where(x => x.Name.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0) // Not Case sensitive
                .ToList();
         }
         // GET api/Product/id
