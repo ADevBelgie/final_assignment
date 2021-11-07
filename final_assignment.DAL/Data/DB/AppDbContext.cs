@@ -80,26 +80,30 @@ namespace final_assignment.DAL.Data.DB
             // Seeding
             // Seeding FoodProducts
             IList<FoodModel> defaultStandardsFood = new List<FoodModel>();
-            for (int i = 1; i < 3; i++)
-            {
-                defaultStandardsFood.Add(new FoodModel() { ProductId = i * 5 - 4, ProductType = "food", Name = "Pizza", Price = 10, Description = "Grilled Pizza Margherita", Obsolete = false, AmountInStock = 10, QuantityInPackage = 3, Image = "Grilled-Pizza-Margherita.jpg" });
-                defaultStandardsFood.Add(new FoodModel() { ProductId = i * 5 - 3, ProductType = "food", Name = "Hot Dog", Price = 3, Description = "American Hot Dog", Obsolete = false, AmountInStock = 0, QuantityInPackage = 3, Image = "hot-dogs-new-yorkais.jpeg" });
-                defaultStandardsFood.Add(new FoodModel() { ProductId = i * 5 - 2, ProductType = "food", Name = "Sport Drink", Price = 5, Description = "Sport Drink Powerade", Obsolete = true, AmountInStock = 0, QuantityInPackage = 3, Image= "powerade.jpg" });
-                defaultStandardsFood.Add(new FoodModel() { ProductId = i * 5 - 1, ProductType = "food", Name = "Spaghetti", Price = 19, Description = "Spaghetti Bolognese", Obsolete = false, AmountInStock = 8, QuantityInPackage = 18, Image= "spaghetti.jpg" });
-                defaultStandardsFood.Add(new FoodModel() { ProductId = i * 5, ProductType = "food", Name = "Scrambled Eggs", Price = 19, Description = "3 Scrambled Eggs", Obsolete = false, AmountInStock = 150, QuantityInPackage = 5, Image= "scrambled-eggs-1.jpg" });
-            }
+            defaultStandardsFood.Add(new FoodModel() { ProductId = 1, ProductType = "food", Name = "High Potency Magnesium", Price = 30, Description = "", Obsolete = false, AmountInStock = 0, QuantityInPackage = 3, Image = "High Potency Magnesium.jpg" });
+            defaultStandardsFood.Add(new FoodModel() { ProductId = 2, ProductType = "food", Name = "Sport Drink", Price = 5, Description = "Sport Drink Powerade", Obsolete = true, AmountInStock = 0, QuantityInPackage = 3, Image = "powerade.jpg" });
+            defaultStandardsFood.Add(new FoodModel() { ProductId = 3, ProductType = "food", Name = "Shake for Weight Loss", Price = 19, Description = "", Obsolete = false, AmountInStock = 8, QuantityInPackage = 18, Image = "Shake for Weight Loss.jpg" });
+            defaultStandardsFood.Add(new FoodModel() { ProductId = 4, ProductType = "food", Name = "Nutritional Drink Mix", Price = 10, Description = "3 Eggs worth of eggwhite", Obsolete = false, AmountInStock = 150, QuantityInPackage = 5, Image = "Nutritional Drink Mix.jpg" });
+            defaultStandardsFood.Add(new FoodModel() { ProductId = 5, ProductType = "food", Name = "Protein Bar Pack", Price = 13.4M, Description = "200G Protein", Obsolete = false, AmountInStock = 10, QuantityInPackage = 3, Image = "Protein Bar Pack.jpg" });
+            defaultStandardsFood.Add(new FoodModel() { ProductId = 6, ProductType = "food", Name = "Multigrain Energy Bars", Price = 16, Description = "", Obsolete = false, AmountInStock = 10, QuantityInPackage = 3, Image = "Multigrain Energy Bars.jpg" });
+            defaultStandardsFood.Add(new FoodModel() { ProductId = 7, ProductType = "food", Name = "Health & Nutrition Drink", Price = 11, Description = "", Obsolete = false, AmountInStock = 10, QuantityInPackage = 3, Image = "Health & Nutrition Drink.jpg" });
+            defaultStandardsFood.Add(new FoodModel() { ProductId = 8, ProductType = "food", Name = "Oats with Almonds Biscuits", Price = 8, Description = "", Obsolete = false, AmountInStock = 10, QuantityInPackage = 3, Image = "Oats with Almonds Biscuits.jpg" });
+
+
+
             modelBuilder.Entity<FoodModel>().HasData(defaultStandardsFood);
 
             // Seeding NonFoodProducts
             IList<NonFoodModel> defaultStandardsNonFood = new List<NonFoodModel>();
-            for (int i = 3; i < 5; i++)
-            {
-                defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = i * 5 - 4, ProductType = "nonfood", Name = "Booster", Price = 46, Description = "Mega fast", Obsolete = false, AmountInStock = 10, Size = "3x3", Color = "blue", Image= "funko-the-thing-560-fantastic-four-pop-marvel.jpg" });
-                defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = i * 5 - 3, ProductType = "nonfood", Name = "gps", Price = 31, Description = "underwater", Obsolete = false, AmountInStock = 0, Size = "10x10", Color = "orange", Image = "funko-the-thing-560-fantastic-four-pop-marvel.jpg" });
-                defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = i * 5 - 2, ProductType = "nonfood", Name = "Aero shirt", Price = 20, Description = "Aerodynamic", Obsolete = true, AmountInStock = 0, Size = "50x50", Color = "green", Image = "funko-the-thing-560-fantastic-four-pop-marvel.jpg" });
-                defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = i * 5 - 1, ProductType = "nonfood", Name = "Aero pants", Price = 20, Description = "Aerodynamic", Obsolete = false, AmountInStock = 8, Size = "3x3", Color = "white", Image = "funko-the-thing-560-fantastic-four-pop-marvel.jpg" });
-                defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = i * 5, ProductType = "nonfood", Name = "Bottle", Price = 9, Description = "Durable", Obsolete = false, AmountInStock = 100, Size = "5x5", Color = "black", Image = "funko-the-thing-560-fantastic-four-pop-marvel.jpg" });
-            }
+            defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = 100, ProductType = "nonfood", Name = "Hiking Backpack", Price = 129.9M, Description = "Mega fast Hiking Backpack", Obsolete = false, AmountInStock = 10, Size = "3x3", Color = "blue", Image = "hiking backpack.jpg" });
+            defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = 101, ProductType = "nonfood", Name = "Portable Tent", Price = 165, Description = "2 Person tent for your outdoor adventures", Obsolete = false, AmountInStock = 0, Size = "10x10", Color = "orange", Image = "portable tent.jpg" });
+            defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = 102, ProductType = "nonfood", Name = "GPS Smartwatch", Price = 200, Description = "", Obsolete = true, AmountInStock = 0, Size = "50x50", Color = "green", Image = "gps smartwatch.jpg" });
+            defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = 103, ProductType = "nonfood", Name = "Running Shoes ", Price = 99, Description = "Aerodynamic", Obsolete = false, AmountInStock = 8, Size = "3x3", Color = "white", Image = "running shoes.jpg" });
+            defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = 104, ProductType = "nonfood", Name = "Fit Track Pants", Price = 40, Description = "Durable", Obsolete = false, AmountInStock = 100, Size = "5x5", Color = "black", Image = "fit track pants.jpg" });
+            defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = 105, ProductType = "nonfood", Name = "Badminton Racket", Price = 92, Description = "Durable and lightweight", Obsolete = false, AmountInStock = 100, Size = "5x5", Color = "black", Image = "badminton racquet.jpg" });
+            defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = 106, ProductType = "nonfood", Name = "Roller Wheel", Price = 30, Description = "For your abs", Obsolete = false, AmountInStock = 100, Size = "5x5", Color = "black", Image = "Roller Wheel.jpg" });
+            defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = 107, ProductType = "nonfood", Name = "Yoga and Exercise Mat", Price = 35, Description = "For those late night stretches", Obsolete = false, AmountInStock = 100, Size = "5x5", Color = "black", Image = "Yoga and Exercise Mat.jpg" });
+            defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = 108, ProductType = "nonfood", Name = "Folding Treadmill", Price = 999, Description = "", Obsolete = false, AmountInStock = 100, Size = "5x5", Color = "black", Image = "Folding Treadmill.jpg" });
             modelBuilder.Entity<NonFoodModel>().HasData(defaultStandardsNonFood);
 
 
