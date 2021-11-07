@@ -82,11 +82,11 @@ namespace final_assignment.DAL.Data.DB
             IList<FoodModel> defaultStandardsFood = new List<FoodModel>();
             for (int i = 1; i < 3; i++)
             {
-                defaultStandardsFood.Add(new FoodModel() { ProductId = i * 5 - 4, ProductType = "food", Name = "Pizza", Price = 50, Description = "Jummy food", Obsolete = false, AmountInStock = 10, QuantityInPackage = 3 });
-                defaultStandardsFood.Add(new FoodModel() { ProductId = i * 5 - 3, ProductType = "food", Name = "Flies", Price = 32, Description = "Bug food", Obsolete = false, AmountInStock = 0, QuantityInPackage = 3 });
-                defaultStandardsFood.Add(new FoodModel() { ProductId = i * 5 - 2, ProductType = "food", Name = "Dog Crunch", Price = 19, Description = "Dog food", Obsolete = true, AmountInStock = 0, QuantityInPackage = 3 });
-                defaultStandardsFood.Add(new FoodModel() { ProductId = i * 5 - 1, ProductType = "food", Name = "Jelly", Price = 19, Description = "Fatty food", Obsolete = false, AmountInStock = 8, QuantityInPackage = 18 });
-                defaultStandardsFood.Add(new FoodModel() { ProductId = i * 5, ProductType = "food", Name = "Choco", Price = 19, Description = "Chocolate food", Obsolete = false, AmountInStock = 150, QuantityInPackage = 5 });
+                defaultStandardsFood.Add(new FoodModel() { ProductId = i * 5 - 4, ProductType = "food", Name = "Pizza", Price = 10, Description = "Grilled Pizza Margherita", Obsolete = false, AmountInStock = 10, QuantityInPackage = 3, Image = "Grilled-Pizza-Margherita.jpg" });
+                defaultStandardsFood.Add(new FoodModel() { ProductId = i * 5 - 3, ProductType = "food", Name = "Hot Dog", Price = 3, Description = "American Hot Dog", Obsolete = false, AmountInStock = 0, QuantityInPackage = 3, Image = "hot-dogs-new-yorkais.jpeg" });
+                defaultStandardsFood.Add(new FoodModel() { ProductId = i * 5 - 2, ProductType = "food", Name = "Sport Drink", Price = 5, Description = "Sport Drink Powerade", Obsolete = true, AmountInStock = 0, QuantityInPackage = 3, Image= "powerade.jpg" });
+                defaultStandardsFood.Add(new FoodModel() { ProductId = i * 5 - 1, ProductType = "food", Name = "Spaghetti", Price = 19, Description = "Spaghetti Bolognese", Obsolete = false, AmountInStock = 8, QuantityInPackage = 18, Image= "spaghetti.jpg" });
+                defaultStandardsFood.Add(new FoodModel() { ProductId = i * 5, ProductType = "food", Name = "Scrambled Eggs", Price = 19, Description = "3 Scrambled Eggs", Obsolete = false, AmountInStock = 150, QuantityInPackage = 5, Image= "scrambled-eggs-1.jpg" });
             }
             modelBuilder.Entity<FoodModel>().HasData(defaultStandardsFood);
 
@@ -94,11 +94,11 @@ namespace final_assignment.DAL.Data.DB
             IList<NonFoodModel> defaultStandardsNonFood = new List<NonFoodModel>();
             for (int i = 3; i < 5; i++)
             {
-                defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = i * 5 - 4, ProductType = "nonfood", Name = "Booster", Price = 46, Description = "Mega fast", Obsolete = false, AmountInStock = 10, Size = "3x3", Color = "blue" });
-                defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = i * 5 - 3, ProductType = "nonfood", Name = "gps", Price = 31, Description = "underwater", Obsolete = false, AmountInStock = 0, Size = "10x10", Color = "orange" });
-                defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = i * 5 - 2, ProductType = "nonfood", Name = "Aero shirt", Price = 20, Description = "Aerodynamic", Obsolete = true, AmountInStock = 0, Size = "50x50", Color = "green" });
-                defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = i * 5 - 1, ProductType = "nonfood", Name = "Aero pants", Price = 20, Description = "Aerodynamic", Obsolete = false, AmountInStock = 8, Size = "3x3", Color = "white" });
-                defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = i * 5, ProductType = "nonfood", Name = "Bottle", Price = 9, Description = "Durable", Obsolete = false, AmountInStock = 100, Size = "5x5", Color = "black" });
+                defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = i * 5 - 4, ProductType = "nonfood", Name = "Booster", Price = 46, Description = "Mega fast", Obsolete = false, AmountInStock = 10, Size = "3x3", Color = "blue", Image= "funko-the-thing-560-fantastic-four-pop-marvel.jpg" });
+                defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = i * 5 - 3, ProductType = "nonfood", Name = "gps", Price = 31, Description = "underwater", Obsolete = false, AmountInStock = 0, Size = "10x10", Color = "orange", Image = "funko-the-thing-560-fantastic-four-pop-marvel.jpg" });
+                defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = i * 5 - 2, ProductType = "nonfood", Name = "Aero shirt", Price = 20, Description = "Aerodynamic", Obsolete = true, AmountInStock = 0, Size = "50x50", Color = "green", Image = "funko-the-thing-560-fantastic-four-pop-marvel.jpg" });
+                defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = i * 5 - 1, ProductType = "nonfood", Name = "Aero pants", Price = 20, Description = "Aerodynamic", Obsolete = false, AmountInStock = 8, Size = "3x3", Color = "white", Image = "funko-the-thing-560-fantastic-four-pop-marvel.jpg" });
+                defaultStandardsNonFood.Add(new NonFoodModel() { ProductId = i * 5, ProductType = "nonfood", Name = "Bottle", Price = 9, Description = "Durable", Obsolete = false, AmountInStock = 100, Size = "5x5", Color = "black", Image = "funko-the-thing-560-fantastic-four-pop-marvel.jpg" });
             }
             modelBuilder.Entity<NonFoodModel>().HasData(defaultStandardsNonFood);
 

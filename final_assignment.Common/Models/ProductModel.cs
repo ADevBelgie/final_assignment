@@ -19,5 +19,6 @@ namespace final_assignment.Common.Models
         public string Description { get; set; }
         public bool Obsolete { get; set; } // Active
         public int AmountInStock { get; set; }
+        public string Image { get; set; }
     }
 }
