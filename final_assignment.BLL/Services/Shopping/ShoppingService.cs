@@ -24,6 +24,11 @@ namespace final_assignment.BLL.Services.Shopping
             return _shoppingBagRepository.AddShoppingBag(shoppingBagModel);
         }
 
+        public ShoppingItemModel AddShoppingItem(ShoppingItemModel shoppingItem)
+        {
+            return _shoppingItemRepository.AddShoppingItem(shoppingItem);
+        }
+
         public List<ShoppingItemModel> GetListAllShoppingItemWithShoppingBagId(int id)
         {
             return _shoppingItemRepository.GetAllShoppingItem().Where(si => si.ShoppingBagId == id).ToList();
@@ -37,6 +42,11 @@ namespace final_assignment.BLL.Services.Shopping
         public ShoppingBagModel GetShoppingBagByLoginId(string id)
         {
             return _shoppingBagRepository.GetShoppingBagByLoginId(id);
+        }
+
+        public ShoppingItemModel UpdateShoppingItemById(ShoppingItemModel shoppingItem)
+        {
+            return _shoppingItemRepository.UpdateShoppingItemById(shoppingItem);
         }
     }
 }

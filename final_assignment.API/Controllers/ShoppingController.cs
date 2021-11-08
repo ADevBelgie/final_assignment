@@ -3,6 +3,7 @@ using final_assignment.BLL.Services.Account;
 using final_assignment.BLL.Services.Shopping;
 using final_assignment.Common.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -42,7 +43,7 @@ namespace final_assignment.API.Controllers
         }
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> AddItem()
+        public async Task<IActionResult> AddItem(int productId, int amount = 1)
         {
             
             var allUsers = _accountService.GetAllLoginViews();
@@ -54,7 +55,36 @@ namespace final_assignment.API.Controllers
             {
                 shoppingBag = CreateShoppingBag(currentUser);
             }
-            return Ok(new Response { Status = "Success", Message = "Item added to shoppingcart" });
+            // Check if user already added this item
+            var shoppingItem =_shoppingService.GetListAllShoppingItemWithShoppingBagId(currentUser.ShoppingBagId).Find(x => x.ProductId == productId);
+            //Add shopping item to bag
+            if (shoppingItem is not null)
+            {
+                shoppingItem.Amount += amount;
+            }
+            else
+            {
+                shoppingItem = new ShoppingItemModel()
+                {
+                    ShoppingBagId = currentUser.ShoppingBagId,
+                    ProductId = productId,
+                    Amount = amount,
+                    Discount = 0,
+                };
+            }
+            try
+            {
+                _shoppingService.UpdateShoppingItemById(shoppingItem);
+                return Ok(new Response { Status = "Success", Message = "Item added to shoppingcart" });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "InternalServerError", Message = "Contact admin or try again." });
+            }
+            
+
+            
         }
         private ShoppingBagModel CreateShoppingBag(LoginModel currentUser)
         {

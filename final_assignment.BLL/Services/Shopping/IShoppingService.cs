@@ -13,5 +13,7 @@ namespace final_assignment.BLL.Services.Shopping
         List<ShoppingItemModel> GetListAllShoppingItemWithShoppingBagId(int id);
         ShoppingBagModel AddShoppingBag(ShoppingBagModel shoppingBagModel);
         ShoppingBagModel GetShoppingBagByLoginId(string id);
+        ShoppingItemModel AddShoppingItem(ShoppingItemModel shoppingItem);
+        ShoppingItemModel UpdateShoppingItemById(ShoppingItemModel shoppingItem);
     }
 }
