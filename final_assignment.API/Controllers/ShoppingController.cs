@@ -43,7 +43,7 @@ namespace final_assignment.API.Controllers
         }
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> AddItem(int productId, int amount = 1)
+        public async Task<IActionResult> AddShoppingItem(int productId, int amount = 1, bool setAmount = false)
         {
             
             var allUsers = _accountService.GetAllLoginViews();
@@ -60,7 +60,14 @@ namespace final_assignment.API.Controllers
             //Add shopping item to bag
             if (shoppingItem is not null)
             {
-                shoppingItem.Amount += amount;
+                if (setAmount == false)
+                {
+                    shoppingItem.Amount += amount;
+                }
+                else
+                {
+                    shoppingItem.Amount = amount;
+                }
             }
             else
             {
@@ -82,11 +89,33 @@ namespace final_assignment.API.Controllers
                 _logger.LogError(e.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "InternalServerError", Message = "Contact admin or try again." });
             }
-            
-
-            
         }
-        private ShoppingBagModel CreateShoppingBag(LoginModel currentUser)
+        [HttpDelete]
+        [Authorize]
+        public async Task<IActionResult> DeleteShoppingItem(int productId)
+        {
+            var allUsers = _accountService.GetAllLoginViews();
+            var currentUser = _accountService.GetAllLoginViews().Find(x => x.UserName == User.Identity.Name);
+            var shoppingBag = _shoppingService.GetShoppingBagByLoginId(currentUser.Id);
+
+            // add Shoppingbag if not already created for this user.
+            if (shoppingBag == null)
+            {
+                shoppingBag = CreateShoppingBag(currentUser);
+            }
+
+            try
+            {
+                // Delete item by productId
+                return Ok(new Response { Status = "Success", Message = "Item added to shoppingcart" });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "InternalServerError", Message = "Contact admin or try again." });
+            }
+        }
+            private ShoppingBagModel CreateShoppingBag(LoginModel currentUser)
         {
             // Create shoppingbag for user and add shoppingbagid to user
             var shoppingBag = _shoppingService.AddShoppingBag(new ShoppingBagModel
