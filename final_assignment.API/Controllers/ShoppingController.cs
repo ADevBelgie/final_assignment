@@ -115,7 +115,7 @@ namespace final_assignment.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "InternalServerError", Message = "Contact admin or try again." });
             }
         }
-            private ShoppingBagModel CreateShoppingBag(LoginModel currentUser)
+        private ShoppingBagModel CreateShoppingBag(LoginModel currentUser)
         {
             // Create shoppingbag for user and add shoppingbagid to user
             var shoppingBag = _shoppingService.AddShoppingBag(new ShoppingBagModel

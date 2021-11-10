@@ -3,8 +3,7 @@ using final_assignment.DAL.Data.DB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace final_assignment.DAL.Data.Repositories.ShoppingBag
 {
@@ -39,12 +38,12 @@ namespace final_assignment.DAL.Data.Repositories.ShoppingBag
 
         public ShoppingBagModel GetShoppingBagById(int id)
         {
-            return _context.ShoppingBags.FirstOrDefault(sb => sb.ShoppingBagId == id);
+            return _context.ShoppingBags.Include("Items").FirstOrDefault(sb => sb.ShoppingBagId == id);
         }
 
         public ShoppingBagModel GetShoppingBagByLoginId(string id)
         {
-            return _context.ShoppingBags.FirstOrDefault(sb => sb.LoginId == id);
+            return _context.ShoppingBags.Include("Items").FirstOrDefault(sb => sb.LoginId == id);
         }
 
         public ShoppingBagModel UpdateShoppingBagById(ShoppingBagModel shoppingBag)
