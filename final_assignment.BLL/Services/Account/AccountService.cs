@@ -18,7 +18,7 @@ namespace final_assignment.BLL.Services.Account
 
         public LoginModel AddLogin(LoginModel login)
         {
-            return _loginRepository.AddLogin(login);
+            return  _loginRepository.AddLogin(login);
         }
 
         public List<LoginModel> GetAllLoginViews()

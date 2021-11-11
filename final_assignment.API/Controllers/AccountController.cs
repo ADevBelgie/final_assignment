@@ -100,16 +100,17 @@ namespace final_assignment.API.Controllers
         {
             var userExists = await _userManager.FindByNameAsync(model.UserName);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+                return StatusCode(StatusCodes.Status302Found, new Response { Status = "Error", Message = "User already exists!" });
 
             LoginModel user = new LoginModel()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.UserName
+                UserName = model.UserName,
+                PasswordHash = model.PasswordHash
             };
-            var result = await _userManager.CreateAsync(user, model.PasswordHash);
-            if (!result.Succeeded)
+            var userReturn = _accountService.AddLogin(user);
+            if (userReturn == null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
 
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });

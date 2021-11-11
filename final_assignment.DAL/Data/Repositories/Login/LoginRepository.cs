@@ -5,20 +5,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace final_assignment.DAL.Data.Repositories.Login
 {
     public class LoginRepository : ILoginRepository
     {
         private readonly AppDbContext _context;
+        private readonly ILogger<LoginRepository> _logger;
         private readonly UserManager<LoginModel> _userManager;
         private readonly RoleManager<RoleModel> _roleManager;
         public LoginRepository(
-            AppDbContext context, 
+            AppDbContext context,
+             ILogger<LoginRepository> logger,
             UserManager<LoginModel> userManager,
             RoleManager<RoleModel> roleManager)
         {
             _context = context;
+            _logger = logger;
             _userManager = userManager;
             _roleManager = roleManager;
         }
@@ -41,15 +45,16 @@ namespace final_assignment.DAL.Data.Repositories.Login
                     {
                         _userManager.AddToRoleAsync(user, "NormalUser").Wait();
                     }
+                    // logging
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                // Add logging
+                _logger.LogError(e.Message);
                 throw;
             }
             Save();
-            return GetLoginId(login.Id);
+            return _context.Users.FirstOrDefault(x => x.UserName == login.UserName);
         }
 
         public IEnumerable<LoginModel> GetAllLoginViews()
