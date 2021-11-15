@@ -13,5 +13,6 @@ namespace final_assignment.DAL.Data.Repositories.ShoppingItem
         ShoppingItemModel GetShoppingItemId(int id);
         ShoppingItemModel AddShoppingItem(ShoppingItemModel shoppingItem);
         ShoppingItemModel UpdateShoppingItemById(ShoppingItemModel shoppingItem);
+        void DeleteShoppingItemByProductId(int productId);
     }
 }

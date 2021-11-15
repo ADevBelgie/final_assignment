@@ -29,6 +29,11 @@ namespace final_assignment.BLL.Services.Shopping
             return _shoppingItemRepository.AddShoppingItem(shoppingItem);
         }
 
+        public void DeleteShoppingItemByProductId(int productId)
+        {
+            _shoppingItemRepository.DeleteShoppingItemByProductId(productId);
+        }
+
         public List<ShoppingItemModel> GetListAllShoppingItemWithShoppingBagId(int id)
         {
             return _shoppingItemRepository.GetAllShoppingItem().Where(si => si.ShoppingBagId == id).ToList();

@@ -15,5 +15,6 @@ namespace final_assignment.BLL.Services.Shopping
         ShoppingBagModel GetShoppingBagByLoginId(string id);
         ShoppingItemModel AddShoppingItem(ShoppingItemModel shoppingItem);
         ShoppingItemModel UpdateShoppingItemById(ShoppingItemModel shoppingItem);
+        void DeleteShoppingItemByProductId(int productId);
     }
 }

@@ -29,6 +29,13 @@ namespace final_assignment.DAL.Data.Repositories.ShoppingItem
             return GetShoppingItemId(shoppingItem.ShoppingBagId);
         }
 
+        public void DeleteShoppingItemByProductId(int productId)
+        {
+            var itemToRemove = _context.ShoppingItems.FirstOrDefault(x => x.ProductId == productId);
+            _context.ShoppingItems.Remove(itemToRemove);
+            Save();
+        }
+
         public IEnumerable<ShoppingItemModel> GetAllShoppingItem()
         {
             return _context.ShoppingItems;

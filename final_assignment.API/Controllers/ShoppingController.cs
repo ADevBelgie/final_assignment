@@ -106,8 +106,8 @@ namespace final_assignment.API.Controllers
 
             try
             {
-                // Delete item by productId
-                return Ok(new Response { Status = "Success", Message = "Item added to shoppingcart" });
+                _shoppingService.DeleteShoppingItemByProductId(productId);
+                return Ok(new Response { Status = "Success", Message = "Item deleted from shoppingcart" });
             }
             catch (Exception e)
             {
