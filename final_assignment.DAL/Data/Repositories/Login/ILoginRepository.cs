@@ -13,5 +13,6 @@ namespace final_assignment.DAL.Data.Repositories.Login
         LoginModel GetLoginId(string id);
         LoginModel AddLogin(LoginModel login);
         Task<LoginModel> UpdateLoginByIdAsync(LoginModel login);
+        Task<LoginModel> DeleteLogin(string userName);
     }
 }

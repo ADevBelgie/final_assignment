@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using System.IdentityModel.Tokens;
 using Microsoft.IdentityModel;
 using System.IdentityModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace final_assignment.API.Controllers
 {
@@ -114,6 +115,29 @@ namespace final_assignment.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
 
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+        }
+        [HttpGet]
+        [Route("logins")]
+        [Authorize(Roles = "Administrator")]
+        public List<LoginModel> GetLogins()
+        {
+            // Get all user logins
+            List<LoginModel> users = _accountService.GetAllLoginViews();
+            _logger.LogInformation("Retrieved all user data");
+            return users;
+        }
+        [HttpDelete]
+        [Route("login")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> DeleteLogin(string userName)
+        {
+            // Delete specified user login via userName
+            LoginModel user = await _accountService.DeleteLogin(userName);
+            if (user == null)
+            {
+                return Ok(new Response { Status = "Success", Message = "User deleted successfully!" });
+            }
+            return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User deletion failed!" });
         }
     }
 }

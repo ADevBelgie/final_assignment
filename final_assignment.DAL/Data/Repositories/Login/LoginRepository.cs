@@ -57,6 +57,26 @@ namespace final_assignment.DAL.Data.Repositories.Login
             return _context.Users.FirstOrDefault(x => x.UserName == login.UserName);
         }
 
+        public async Task<LoginModel> DeleteLogin(string userName)
+        {
+            LoginModel user;
+            try
+            {
+                user = _userManager.FindByNameAsync(userName).Result;
+                if (user != null)
+                {
+                    await _userManager.DeleteAsync(user);
+                }
+            }
+            catch (Exception)
+            {
+                // Add logging
+                throw;
+            }
+            Save();
+            return GetLoginId(user.Id);
+        }
+
         public IEnumerable<LoginModel> GetAllLoginViews()
         {
             return (IEnumerable<LoginModel>)_context.Users;

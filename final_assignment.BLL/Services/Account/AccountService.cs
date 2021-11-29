@@ -21,6 +21,11 @@ namespace final_assignment.BLL.Services.Account
             return  _loginRepository.AddLogin(login);
         }
 
+        public async Task<LoginModel> DeleteLogin(string userName)
+        {
+             return await _loginRepository.DeleteLogin(userName);
+        }
+
         public List<LoginModel> GetAllLoginViews()
         {
             return _loginRepository.GetAllLoginViews().ToList();

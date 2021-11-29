@@ -12,5 +12,6 @@ namespace final_assignment.BLL.Services.Account
         List<LoginModel> GetAllLoginViews();
         LoginModel AddLogin(LoginModel login);
         LoginModel UpdateLoginById(LoginModel login);
+        Task<LoginModel> DeleteLogin(string userName);
     }
 }
